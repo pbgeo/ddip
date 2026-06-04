@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>띱약사 공구 성과 리포트</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;700;900&family=Space+Mono:wght@400;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0d14;--s1:#111620;--s2:#161e30;--s3:#1e2840;--border:#222d45;--border2:#2d3f60;--accent:#4f8ef7;--a2:#f7954f;--a3:#4ff7a0;--a4:#f74f7e;--a5:#c77dff;--a6:#f7d44f;--text:#e8edf8;--muted:#7a8aaa;--muted2:#4a5a7a}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;padding:28px;line-height:1.6;max-width:980px;margin:0 auto}
+h1{font-size:20px;font-weight:900;margin-bottom:3px}
+.meta{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:8px}
+.notice{font-size:11px;color:var(--muted2);background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:8px 14px;margin-bottom:20px}
+.tabs{display:flex;gap:4px;margin-bottom:18px;flex-wrap:wrap}
+.tab{padding:7px 16px;border:1px solid var(--border);border-radius:6px;background:var(--s1);color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'Noto Sans KR',sans-serif;white-space:nowrap}
+.tab.active,.tab:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.panel{display:none}.panel.active{display:block}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:13px 14px}
+.kpi-label{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.kpi-value{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:var(--accent)}
+.kpi-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:16px}
+.card.full{grid-column:1/-1}
+.card-title{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.bar-label{font-size:10px;color:var(--text);text-align:right;min-width:150px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{flex:1;background:var(--s3);border-radius:3px;overflow:hidden}
+.bar-fill{border-radius:3px;display:flex;align-items:center;padding-left:6px;font-family:'Space Mono',monospace;font-size:9px;color:#fff;font-weight:700;white-space:nowrap}
+.bar-amt{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);min-width:48px;text-align:right}
+.bench-block{margin-bottom:10px;padding:11px 13px;background:var(--s2);border-radius:8px;border-left:3px solid var(--border2)}
+.bench-block.g{border-left-color:var(--a3)}.bench-block.b{border-left-color:var(--a4)}.bench-block.n{border-left-color:var(--a6)}
+.bench-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.bench-name{font-size:11px;font-weight:700}
+.bench-vals{font-family:'Space Mono',monospace;font-size:11px}
+.bench-desc{font-size:10px;color:var(--muted);line-height:1.5}
+.ins-list{display:flex;flex-direction:column;gap:10px}
+.ins{background:var(--s2);border-radius:8px;padding:14px;border-left:3px solid var(--border2)}
+.ins.g{border-left-color:var(--a3)}.ins.b{border-left-color:var(--a4)}.ins.w{border-left-color:var(--a2)}.ins.p{border-left-color:var(--a5)}
+.ins-title{font-size:12px;font-weight:700;margin-bottom:5px}
+.ins-body{font-size:11px;color:var(--muted);line-height:1.7}
+.ins-body strong{color:var(--text)}
+.ins-action{margin-top:8px;font-size:10px;color:var(--a6);padding:6px 9px;background:var(--s3);border-radius:5px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:var(--s2);color:var(--muted);font-size:9px;letter-spacing:.8px;text-transform:uppercase;padding:7px 9px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:8px 9px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--s2)}
+.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rec{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:13px;border-top:2px solid var(--a5)}
+.rec-badge{font-size:9px;color:var(--a5);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.rec-name{font-size:12px;font-weight:700;margin-bottom:5px}
+.tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.tag{font-size:9px;background:var(--s3);border:1px solid var(--border2);padding:1px 6px;border-radius:3px;color:var(--muted)}
+.rec-body{font-size:10px;color:var(--muted);line-height:1.6}
+.month-strip{display:flex;gap:6px;align-items:flex-end;height:64px;margin-top:8px}
+.mc{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+.mb{width:100%;border-radius:2px 2px 0 0}
+.ml{font-size:8px;color:var(--muted2)}
+.mv{font-size:7px;color:var(--muted);font-family:'Space Mono',monospace}
+.disclaimer{font-size:10px;color:var(--muted2);border-top:1px solid var(--border);margin-top:20px;padding-top:12px}
+</style></head>
+<body>
+<h1>📋 공구 성과 리포트 — 띱약사</h1>
+<div class="meta">집계 기간: 2025-12 ~ 2026-05 &nbsp;|&nbsp; 발행: 파마브로스 운영팀</div>
+<div class="notice">이 리포트는 띱약사 전용입니다. 전체 참여 약사의 집계 현황을 기반으로 작성되었으며, 타 약사의 개별 매출은 포함되지 않습니다.</div>
+<div class="tabs">
+  <div class="tab active" onclick="show('summary',this)">📊 성과 요약</div>
+  <div class="tab" onclick="show('bench',this)">📐 벤치마크</div>
+  <div class="tab" onclick="show('history',this)">📅 공구 이력</div>
+  <div class="tab" onclick="show('insight',this)">💡 분석 & 인사이트</div>
+  <div class="tab" onclick="show('rec',this)">🎯 추천 공구</div>
+</div>
+<div id="panel-summary" class="panel active">
+<div class="kpi-row">
+  <div class="kpi"><div class="kpi-label">총 매출</div><div class="kpi-value">1,062만</div><div class="kpi-sub">2025.12 ~ 2026.05 (6개월)</div></div>
+  <div class="kpi"><div class="kpi-label">총 공구 수</div><div class="kpi-value">4건</div><div class="kpi-sub">마그네슘 카테고리 집중</div></div>
+  <div class="kpi"><div class="kpi-label">공구당 평균</div><div class="kpi-value" style="color:var(--a2)">265만</div><div class="kpi-sub">네트워크 평균 418만</div></div>
+  <div class="kpi"><div class="kpi-label">5월 단건</div><div class="kpi-value" style="color:var(--a3)">663만</div><div class="kpi-sub">최초 500만+ 돌파</div></div>
+</div>
+<div class="grid2">
+<div class="card">
+  <div class="card-title">공구별 매출</div>
+  <div class="bar-row"><div class="bar-label">GC PNT 액상 마그네슘 50포</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#4ff7a0;height:18px">100%</div></div><div class="bar-amt">663만</div></div>
+  <div class="bar-row"><div class="bar-label">마이니 알티지 오메가3 프로</div><div class="bar-track"><div class="bar-fill" style="width:36%;background:#4f8ef7;height:18px">36%</div></div><div class="bar-amt">238만</div></div>
+  <div class="bar-row"><div class="bar-label">피치힐 쿨멜팅 CMDK</div><div class="bar-track"><div class="bar-fill" style="width:20.5%;background:#4f8ef7;height:18px">20.5%</div></div><div class="bar-amt">136만</div></div>
+  <div class="bar-row"><div class="bar-label">피치힐 쿨멜팅 마디케이</div><div class="bar-track"><div class="bar-fill" style="width:3.5%;background:#7a8aaa;height:18px"></div></div><div class="bar-amt">23만</div></div>
+</div>
+<div class="card">
+  <div class="card-title">월별 매출 추이 — 상승 신호</div>
+  <div class="month-strip">
+    <div class="mc"><div class="mb" style="height:2px;background:#2a3555"></div><div class="ml">12월</div><div class="mv">23만</div></div>
+    <div class="mc"><div class="mb" style="height:2px;background:#2a3555"></div><div class="ml">1~2월</div><div class="mv">없음</div></div>
+    <div class="mc"><div class="mb" style="height:23px;background:#4f8ef7"></div><div class="ml">3월</div><div class="mv">238만</div></div>
+    <div class="mc"><div class="mb" style="height:13px;background:#4f8ef7"></div><div class="ml">4월</div><div class="mv">136만</div></div>
+    <div class="mc"><div class="mb" style="height:64px;background:#4ff7a0"></div><div class="ml">5월</div><div class="mv">663만</div></div>
+  </div>
+  <div style="margin-top:12px;font-size:11px;color:var(--muted);line-height:1.7">
+    5월 <strong style="color:var(--a3)">처음으로 600만원대 돌파</strong>.<br>
+    4건의 공구 모두 전혀 다른 크기로, 마지막 공구가 가장 큰 성과.<br>
+    <strong>상승 모멘텀</strong>이 분명히 존재합니다.
+  </div>
+</div>
+</div>
+</div>
+<div id="panel-bench" class="panel">
+<div style="margin-bottom:12px;font-size:11px;color:var(--muted)">네트워크 전체 집계 기준 평균과 비교한 수치입니다.</div>
+<div class="bench-block g">
+  <div class="bench-top"><span class="bench-name">5월 단건 성과</span><span class="bench-vals" style="color:var(--a3)">내 수치: 6,632,400원 (85개) &nbsp;/&nbsp; <span style="color:var(--muted)">마그네슘 카테고리 네트워크 최고 단건</span></span></div>
+  <div class="bench-desc">5월 마그네슘 PNT 50포 85개, 663만원은 네트워크 전체 마그네슘 카테고리 단건 중 가장 높은 성과입니다. 이 공구 하나가 4개월치 누적 매출보다 큰 결과를 만들었습니다.</div>
+</div>
+<div class="bench-block b">
+  <div class="bench-top"><span class="bench-name">공구당 평균 (전체 기준)</span><span class="bench-vals" style="color:var(--a4)">내 수치: 265만 &nbsp;/&nbsp; <span style="color:var(--muted)">네트워크 평균: 418만</span></span></div>
+  <div class="bench-desc">5월 공구를 제외하면 나머지 3건의 평균은 132만원으로 매우 낮습니다. 5월의 성공이 평균을 크게 끌어올린 구조입니다. 5월 수준의 공구를 반복하는 것이 과제입니다.</div>
+</div>
+<div class="bench-block n">
+  <div class="bench-top"><span class="bench-name">개당 단가</span><span class="bench-vals" style="color:var(--a6)">내 수치: 85,619원 &nbsp;/&nbsp; <span style="color:var(--muted)">네트워크 평균: 100,281원</span></span></div>
+  <div class="bench-desc">단가는 네트워크 평균보다 약 15% 낮습니다. 마그네슘 제품 특성상 단가가 낮은 경향이 있어 카테고리 내에서는 자연스러운 수준입니다. 오메가3 등 고단가 상품 병행 시 개선됩니다.</div>
+</div>
+</div>
+<div id="panel-history" class="panel">
+<table>
+<thead><tr><th>공구 시작일</th><th>상품명</th><th>카테고리</th><th>주문수</th><th>매출</th><th>비고</th></tr></thead>
+<tbody>
+<tr><td>2025-12-29</td><td>피치힐 쿨멜팅 마디케이</td><td>마그네슘</td><td>4개</td><td style="font-family:'Space Mono',monospace">234,000원</td><td style="color:var(--muted)">첫 공구 · 소규모</td></tr>
+<tr><td>2026-03-18</td><td>마이니 알티지 오메가3 프로</td><td>오메가3</td><td>16개</td><td style="font-family:'Space Mono',monospace">2,388,400원</td><td></td></tr>
+<tr><td>2026-04-27</td><td>피치힐 쿨멜팅 CMDK</td><td>칼슘/마그네슘복합</td><td>19개</td><td style="font-family:'Space Mono',monospace">1,362,000원</td><td></td></tr>
+<tr><td>2026-05-13</td><td>GC녹십자웰빙 PNT 액상 마그네슘 플러스 50포</td><td>마그네슘</td><td>85개</td><td style="font-family:'Space Mono',monospace">6,632,400원</td><td style="color:var(--a3)">최고 단건</td></tr>
+</tbody></table>
+<div style="margin-top:10px;font-size:11px;color:var(--muted)">※ 공구 간격: 12월 → 3월(3개월) → 4월(1개월) → 5월(보름). 활동 간격이 불규칙하며 특히 1~2월 공백이 있습니다.</div>
+</div>
+<div id="panel-insight" class="panel">
+<div class="ins-list">
+<div class="ins g">
+  <div class="ins-title">🚀 5월 663만 — 처음으로 공구의 '진짜 크기'를 경험</div>
+  <div class="ins-body">4건 중 마지막 공구가 가장 컸습니다. 이전 3건의 합산(259만원)보다 5월 1건(663만원)이 2.5배 큽니다. 이 경험이 중요한 이유는 <strong>'100만원 공구'와 '600만원 공구'가 다른 방식으로 기획된다는 것</strong>을 체감했기 때문입니다. 5월의 성공 요인(상품 선택, 공지 방식, 팔로워 반응)을 반드시 기록해두고 다음 공구에 적용하세요.</div>
+  <div class="ins-action">📌 체크: 5월 공구에서 무엇이 달랐는지 — 상품? 공지 타이밍? 콘텐츠 형태?</div>
+</div>
+<div class="ins b">
+  <div class="ins-title">⚠️ 4건 중 3건이 100~240만원 — 소형 공구 반복의 한계</div>
+  <div class="ins-body">12월(23만), 3월(238만), 4월(136만)은 모두 20개 이하 주문입니다. 공구를 작게 열면 팔로워에게 '이 약사는 소규모 공구를 하는 곳'이라는 인식이 생깁니다. <strong>작은 공구는 팔로워 기대치도 낮춥니다.</strong> 5월 성공을 기점으로 기획 규모를 올려가는 것이 중요합니다.</div>
+</div>
+<div class="ins w">
+  <div class="ins-title">📅 1~2월 공백 — 팔로워 유지 비용 발생</div>
+  <div class="ins-body">1월과 2월 전혀 활동하지 않은 것이 확인됩니다. 2개월 공백은 팔로워 이탈과 참여도 하락으로 이어집니다. <strong>3월 재시작 시 첫 공구가 4건 중 2위였던 것은, 공백 이후 회복에 시간이 필요했음</strong>을 보여줍니다. 앞으로는 공구가 없는 달에도 최소 정보성 콘텐츠를 이어가는 것을 권장합니다.</div>
+</div>
+<div class="ins g">
+  <div class="ins-title">💡 마그네슘 전문성 — 지금 구축할 적기</div>
+  <div class="ins-body">전체 4건 중 3건이 마그네슘/칼슘마그네슘 계열입니다. 그리고 가장 큰 성과도 마그네슘에서 나왔습니다. 마그네슘은 네트워크 전체에서 <strong>성장률 최상위 카테고리 중 하나</strong>로, 지금 집중하면 전문성을 선점할 수 있습니다. 다양한 마그네슘 상품(수면용·근육용·스트레스용)으로 카테고리를 깊게 파는 전략이 유효합니다.</div>
+</div>
+</div>
+</div>
+<div id="panel-rec" class="panel">
+<div class="rec-grid">
+<div class="rec">
+  <div class="rec-badge">🔁 즉시 재진행</div>
+  <div class="rec-name">GC PNT 액상 마그네슘 50포 (2차)</div>
+  <div class="tags"><span class="tag">본인 최고 단건</span><span class="tag">85개 검증</span><span class="tag">재구매 수요 확실</span></div>
+  <div class="rec-body">5월 85개 구매자들은 6~8주 후 소진 예정입니다. <strong>7월 초 2차 공구 진행 시 기존 구매자 재구매 + 신규 팔로워</strong>가 합쳐져 100개 이상 도전이 가능합니다. 첫 재구매 공구를 만드는 것이 지금 가장 중요한 과제입니다.</div>
+</div>
+<div class="rec">
+  <div class="rec-badge">📌 마그네슘 라인 확장</div>
+  <div class="rec-name">수면 마그네슘 / 비시글리시네이트 타입</div>
+  <div class="tags"><span class="tag">마그네슘 전문화</span><span class="tag">수면 트렌드</span><span class="tag">고단가</span></div>
+  <div class="rec-body">PNT 액상과 다른 형태의 마그네슘으로 라인업을 구성하면 팔로워에게 '마그네슘 전문 약사' 인식을 줄 수 있습니다. 비시글리시네이트 타입은 흡수율과 단가가 높아 매출 효율도 좋습니다.</div>
+</div>
+<div class="rec">
+  <div class="rec-badge">💡 다음 단계</div>
+  <div class="rec-name">오메가3 (규모 확대)</div>
+  <div class="tags"><span class="tag">3월 16개 경험 있음</span><span class="tag">전체 1위 카테고리</span><span class="tag">마그네슘과 시너지</span></div>
+  <div class="rec-body">3월 오메가3 16개(238만)는 가능성을 보여줬습니다. <strong>마그네슘으로 팔로워 신뢰를 쌓은 후 오메가3 확장</strong>이 자연스러운 순서입니다. 마그네슘+오메가3 조합 공구도 시도해볼 수 있습니다.</div>
+</div>
+<div class="rec">
+  <div class="rec-badge">🚫 지금은 불필요</div>
+  <div class="rec-name">카테고리 다변화 시도</div>
+  <div class="tags"><span class="tag">집중 전략 우선</span></div>
+  <div class="rec-body">지금 필요한 것은 새 카테고리 탐색이 아닙니다. 마그네슘에서 성공 패턴을 확립하고 오메가3로 확장하는 2단계 집중 전략이 더 빠른 성장을 만듭니다.</div>
+</div>
+</div>
+</div>
+<div class="disclaimer">본 리포트에 포함된 벤치마크 수치는 전체 네트워크 집계 평균이며, 특정 약사의 개별 데이터를 포함하지 않습니다. 문의: 파마브로스 운영팀</div>
+<script>
+function show(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  el.classList.add('active');
+}
+</script>
+</body></html>
